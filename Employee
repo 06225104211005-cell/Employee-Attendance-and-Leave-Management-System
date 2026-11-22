@@ -1,0 +1,1826 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StaffDesk | HR Management</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    background: #f4f6fb;
+    color: #252b42;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 245px;
+    background: #171c35;
+    color: white;
+    padding: 25px 17px;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.logo span {
+    color: #8d8aff;
+}
+
+.tagline {
+    font-size: 12px;
+    color: #a5abc4;
+    margin-bottom: 35px;
+}
+
+.nav-title {
+    font-size: 11px;
+    color: #858da9;
+    margin: 22px 12px 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav-link {
+    padding: 13px 14px;
+    margin-bottom: 7px;
+    border-radius: 9px;
+    cursor: pointer;
+    color: #c4c9dd;
+    display: flex;
+    gap: 12px;
+    transition: .2s;
+    font-size: 14px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: #343b68;
+    color: white;
+}
+
+.admin {
+    border-top: 1px solid #373d5c;
+    padding-top: 20px;
+    margin-top: 35px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.admin img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.admin small {
+    color: #a5abc4;
+}
+
+/* Main */
+.main {
+    margin-left: 245px;
+    width: calc(100% - 245px);
+    padding: 28px 35px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 15px;
+}
+
+.topbar h2 {
+    font-size: 24px;
+}
+
+.topbar p {
+    color: #8990a5;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.admin-label {
+    background: white;
+    padding: 11px 17px;
+    border-radius: 10px;
+    box-shadow: 0 3px 15px #1c24500a;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Sections */
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.section-heading {
+    margin-bottom: 20px;
+}
+
+.section-heading h2 {
+    font-size: 21px;
+}
+
+.section-heading p {
+    color: #8b91a4;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+/* Dashboard Cards */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 4px 20px #1c245008;
+}
+
+.stat-card p {
+    color: #8990a5;
+    font-size: 13px;
+}
+
+.stat-card h2 {
+    font-size: 29px;
+    margin: 13px 0 5px;
+}
+
+.stat-card small {
+    color: #8990a5;
+    font-size: 11px;
+}
+
+.stat-icon {
+    font-size: 23px;
+    float: right;
+    background: #efefff;
+    padding: 9px;
+    border-radius: 10px;
+}
+
+/* Content Cards */
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 23px;
+    box-shadow: 0 4px 20px #1c245008;
+    margin-bottom: 22px;
+}
+
+.card h3 {
+    font-size: 16px;
+    margin-bottom: 18px;
+}
+
+.grid-two {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+}
+
+/* Table */
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th {
+    text-align: left;
+    padding: 14px 12px;
+    color: #858ba0;
+    background: #f8f9fc;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #f0f1f5;
+    font-size: 13px;
+}
+
+.employee-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.employee-cell img {
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.employee-cell small {
+    display: block;
+    color: #969bad;
+    margin-top: 4px;
+}
+
+.status {
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.present, .approved {
+    background: #e5f8ee;
+    color: #15965a;
+}
+
+.absent, .rejected {
+    background: #ffeded;
+    color: #dc5353;
+}
+
+.late {
+    background: #fff3df;
+    color: #d28b20;
+}
+
+.pending {
+    background: #fff2dc;
+    color: #c78317;
+}
+
+/* Buttons */
+.btn {
+    border: none;
+    padding: 11px 17px;
+    border-radius: 8px;
+    background: #655ee8;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.btn:hover {
+    background: #5149d2;
+}
+
+.btn-light {
+    background: #efefff;
+    color: #655ee8;
+}
+
+.btn-danger {
+    background: #ffecec;
+    color: #d34d4d;
+}
+
+.btn-success {
+    background: #e5f8ee;
+    color: #15965a;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+/* Inputs */
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e4e6ef;
+    border-radius: 8px;
+    outline: none;
+    margin-top: 7px;
+    background: white;
+    color: #252b42;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #655ee8;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.search-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.search-row input {
+    max-width: 350px;
+    margin: 0;
+}
+
+.search-row select {
+    max-width: 180px;
+    margin: 0;
+}
+
+/* Progress */
+.progress {
+    background: #eeeef5;
+    height: 8px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress div {
+    height: 100%;
+    background: #7169ed;
+    border-radius: 10px;
+}
+
+/* Charts */
+.bar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+}
+
+.bar-item {
+    font-size: 12px;
+}
+
+.bar-line {
+    background: #eeeef5;
+    height: 9px;
+    border-radius: 10px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.bar-line div {
+    height: 100%;
+    background: #7169ed;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #15182b99;
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 550px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.close {
+    border: none;
+    background: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Empty */
+.empty {
+    text-align: center;
+    color: #999;
+    padding: 30px;
+}
+
+/* Responsive */
+@media(max-width:1000px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .grid-two {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:700px) {
+    .sidebar {
+        width: 65px;
+        padding: 20px 8px;
+    }
+    .logo {
+        font-size: 12px;
+        overflow: hidden;
+    }
+    .tagline, .nav-title, .nav-link span,
+    .admin div {
+        display: none;
+    }
+    .nav-link {
+        justify-content: center;
+        font-size: 19px;
+        padding: 13px 5px;
+    }
+    .admin {
+        justify-content: center;
+    }
+    .admin img {
+        width: 35px;
+        height: 35px;
+    }
+    .main {
+        margin-left: 65px;
+        width: calc(100% - 65px);
+        padding: 20px 12px;
+    }
+    .stats {
+        gap: 10px;
+    }
+    .stat-card {
+        padding: 14px;
+    }
+    .stat-card h2 {
+        font-size: 22px;
+    }
+    .topbar h2 {
+        font-size: 19px;
+    }
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    .search-row {
+        flex-wrap: wrap;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="logo">Staff<span>Desk.</span></div>
+    <div class="tagline">Smart HR Management</div>
+
+    <div class="nav-title">Main Menu</div>
+
+    <div class="nav-link active" onclick="showSection('dashboard',this)">
+        <span>▦</span><span>Dashboard</span>
+    </div>
+
+    <div class="nav-link" onclick="showSection('employees',this)">
+        <span>♙</span><span>Employees</span>
+    </div>
+
+    <div class="nav-title">Management</div>
+
+    <div class="nav-link" onclick="showSection('attendance',this)">
+        <span>◷</span><span>Attendance</span>
+    </div>
+
+    <div class="nav-link" onclick="showSection('leaves',this)">
+        <span>▤</span><span>Leave Requests</span>
+    </div>
+
+    <div class="nav-title">Analytics</div>
+
+    <div class="nav-link" onclick="showSection('reports',this)">
+        <span>▥</span><span>Monthly Reports</span>
+    </div>
+
+    <div class="admin">
+        <img src="https://i.pravatar.cc/100?img=12"
+             alt="Admin Shahinur">
+        <div>
+            <b>Shahinur</b><br>
+            <small>Administrator</small>
+        </div>
+    </div>
+
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+<header class="topbar">
+    <div>
+        <h2 id="pageTitle">Dashboard Overview</h2>
+        <p id="todayDate"></p>
+    </div>
+
+    <div class="admin-label">
+        👤 Admin: Shahinur
+    </div>
+</header>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="section active">
+
+    <div class="section-heading">
+        <h2>Welcome back, Shahinur! 👋</h2>
+        <p>Here's what's happening with your team today.</p>
+    </div>
+
+    <div class="stats">
+
+        <div class="stat-card">
+            <span class="stat-icon">👥</span>
+            <p>Total Employees</p>
+            <h2 id="totalEmployees">12</h2>
+            <small>Registered employees</small>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-icon">✅</span>
+            <p>Present Today</p>
+            <h2 id="presentCount">0</h2>
+            <small>Marked as present</small>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-icon">❌</span>
+            <p>Absent Today</p>
+            <h2 id="absentCount">0</h2>
+            <small>Marked as absent</small>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-icon">📋</span>
+            <p>Pending Leaves</p>
+            <h2 id="pendingCount">0</h2>
+            <small>Waiting for approval</small>
+        </div>
+
+    </div>
+
+    <div class="grid-two">
+
+        <div class="card">
+            <h3>Recent Attendance</h3>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Check In</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentAttendance"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Attendance Overview</h3>
+
+            <div class="bar-list">
+                <div class="bar-item">
+                    <span>Present</span>
+                    <div class="bar-line">
+                        <div id="presentBar" style="width:0%"></div>
+                    </div>
+                </div>
+
+                <div class="bar-item">
+                    <span>Absent</span>
+                    <div class="bar-line">
+                        <div id="absentBar" style="width:0%"></div>
+                    </div>
+                </div>
+
+                <div class="bar-item">
+                    <span>Late</span>
+                    <div class="bar-line">
+                        <div id="lateBar" style="width:0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="font-size:12px;color:#999;margin-top:25px">
+                Today's attendance statistics.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="card">
+        <h3>Quick Actions</h3>
+
+        <div class="action-buttons">
+            <button class="btn" onclick="showSection('employees')">
+                + Add Employee
+            </button>
+
+            <button class="btn btn-light"
+                    onclick="showSection('attendance')">
+                Mark Attendance
+            </button>
+
+            <button class="btn btn-light"
+                    onclick="showSection('leaves')">
+                View Leave Requests
+            </button>
+
+            <button class="btn btn-light"
+                    onclick="showSection('reports')">
+                View Reports
+            </button>
+        </div>
+    </div>
+
+</section>
+
+<!-- EMPLOYEES -->
+<section id="employees" class="section">
+
+    <div class="section-heading">
+        <h2>Employee Directory</h2>
+        <p>Manage your team members and their information.</p>
+    </div>
+
+    <div class="card">
+
+        <div class="search-row">
+            <input type="text" id="employeeSearch"
+                   placeholder="Search employee..."
+                   oninput="renderEmployees()">
+
+            <button class="btn" onclick="openEmployeeModal()">
+                + Add Employee
+            </button>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Employee ID</th>
+                        <th>Department</th>
+                        <th>Position</th>
+                        <th>Phone</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="employeeTable"></tbody>
+            </table>
+        </div>
+
+    </div>
+</section>
+
+<!-- ATTENDANCE -->
+<section id="attendance" class="section">
+
+    <div class="section-heading">
+        <h2>Attendance Management</h2>
+        <p>Record daily attendance and working hours.</p>
+    </div>
+
+    <div class="card">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Select Employee</label>
+                <select id="attEmployee"></select>
+            </div>
+
+            <div class="form-group">
+                <label>Attendance Date</label>
+                <input type="date" id="attDate">
+            </div>
+
+            <div class="form-group">
+                <label>Check In</label>
+                <input type="time" id="checkIn">
+            </div>
+
+            <div class="form-group">
+                <label>Check Out</label>
+                <input type="time" id="checkOut">
+            </div>
+
+            <div class="form-group">
+                <label>Attendance Status</label>
+                <select id="attStatus">
+                    <option value="Present">Present</option>
+                    <option value="Late">Late</option>
+                    <option value="Absent">Absent</option>
+                </select>
+            </div>
+
+        </div>
+
+        <button class="btn" onclick="saveAttendance()">
+            Save Attendance
+        </button>
+
+    </div>
+
+    <div class="card">
+        <h3>Attendance History</h3>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Date</th>
+                        <th>Check In</th>
+                        <th>Check Out</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="attendanceTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+<!-- LEAVES -->
+<section id="leaves" class="section">
+
+    <div class="section-heading">
+        <h2>Leave Management</h2>
+        <p>Review applications and manage employee leave requests.</p>
+    </div>
+
+    <div class="card">
+
+        <h3>Submit Leave Application</h3>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Employee</label>
+                <select id="leaveEmployee"></select>
+            </div>
+
+            <div class="form-group">
+                <label>Leave Type</label>
+                <select id="leaveType">
+                    <option>Casual Leave</option>
+                    <option>Sick Leave</option>
+                    <option>Annual Leave</option>
+                    <option>Emergency Leave</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Start Date</label>
+                <input type="date" id="leaveStart">
+            </div>
+
+            <div class="form-group">
+                <label>End Date</label>
+                <input type="date" id="leaveEnd">
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label>Reason for Leave</label>
+            <textarea id="leaveReason"
+                      rows="3"
+                      placeholder="Write a short reason..."></textarea>
+        </div>
+
+        <button class="btn" onclick="submitLeave()">
+            Submit Application
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <h3>Leave Applications</h3>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Leave Type</th>
+                        <th>Dates</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="leaveTable"></tbody>
+            </table>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- REPORTS -->
+<section id="reports" class="section">
+
+    <div class="section-heading">
+        <h2>Monthly Attendance Reports</h2>
+        <p>Track employee attendance and monthly performance.</p>
+    </div>
+
+    <div class="card">
+
+        <div class="search-row">
+            <input type="month" id="reportMonth">
+
+            <button class="btn" onclick="renderReports()">
+                Generate Report
+            </button>
+
+            <button class="btn btn-light" onclick="downloadCSV()">
+                ↓ Export CSV
+            </button>
+        </div>
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <p>Total Records</p>
+                <h2 id="reportTotal">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Present</p>
+                <h2 id="reportPresent">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Absent</p>
+                <h2 id="reportAbsent">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Late</p>
+                <h2 id="reportLate">0</h2>
+            </div>
+
+        </div>
+
+        <h3 style="margin-bottom:18px">Employee-wise Summary</h3>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Present</th>
+                        <th>Absent</th>
+                        <th>Late</th>
+                        <th>Attendance Rate</th>
+                    </tr>
+                </thead>
+
+                <tbody id="reportTable"></tbody>
+            </table>
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+</div>
+
+<!-- EMPLOYEE MODAL -->
+<div class="modal" id="employeeModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <h3 id="modalTitle">Add New Employee</h3>
+            <button class="close"
+                    onclick="closeEmployeeModal()">×</button>
+        </div>
+
+        <input type="hidden" id="editEmployeeId">
+
+        <div class="form-group">
+            <label>Employee Name</label>
+            <input id="empName" placeholder="Full name">
+        </div>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Department</label>
+                <select id="empDepartment">
+                    <option>Human Resources</option>
+                    <option>Finance</option>
+                    <option>Marketing</option>
+                    <option>IT Department</option>
+                    <option>Administration</option>
+                    <option>Operations</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Position</label>
+                <input id="empPosition"
+                       placeholder="e.g. Executive">
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input id="empPhone"
+                       placeholder="01XXXXXXXXX">
+            </div>
+
+            <div class="form-group">
+                <label>Profile Photo URL</label>
+                <input id="empPhoto"
+                       placeholder="https://...">
+            </div>
+
+        </div>
+
+        <button class="btn" onclick="saveEmployee()">
+            Save Employee
+        </button>
+
+    </div>
+</div>
+
+<script>
+
+/* ==========================
+   STAFFDESK DATA
+========================== */
+
+const defaultEmployees = [
+    {
+        id: "EMP001",
+        name: "Ayesha Rahman",
+        department: "Human Resources",
+        position: "HR Executive",
+        phone: "01711000001",
+        photo: "https://i.pravatar.cc/150?img=47"
+    },
+    {
+        id: "EMP002",
+        name: "Tanvir Ahmed",
+        department: "IT Department",
+        position: "Software Engineer",
+        phone: "01711000002",
+        photo: "https://i.pravatar.cc/150?img=12"
+    },
+    {
+        id: "EMP003",
+        name: "Nusrat Jahan",
+        department: "Finance",
+        position: "Accountant",
+        phone: "01711000003",
+        photo: "https://i.pravatar.cc/150?img=44"
+    },
+    {
+        id: "EMP004",
+        name: "Rakib Hasan",
+        department: "Marketing",
+        position: "Marketing Officer",
+        phone: "01711000004",
+        photo: "https://i.pravatar.cc/150?img=13"
+    },
+    {
+        id: "EMP005",
+        name: "Maliha Islam",
+        department: "Administration",
+        position: "Admin Officer",
+        phone: "01711000005",
+        photo: "https://i.pravatar.cc/150?img=45"
+    },
+    {
+        id: "EMP006",
+        name: "Sabbir Hossain",
+        department: "IT Department",
+        position: "Web Developer",
+        phone: "01711000006",
+        photo: "https://i.pravatar.cc/150?img=14"
+    },
+    {
+        id: "EMP007",
+        name: "Farzana Akter",
+        department: "Finance",
+        position: "Finance Assistant",
+        phone: "01711000007",
+        photo: "https://i.pravatar.cc/150?img=49"
+    },
+    {
+        id: "EMP008",
+        name: "Imran Khan",
+        department: "Operations",
+        position: "Operations Manager",
+        phone: "01711000008",
+        photo: "https://i.pravatar.cc/150?img=15"
+    },
+    {
+        id: "EMP009",
+        name: "Sadia Afrin",
+        department: "Marketing",
+        position: "Content Executive",
+        phone: "01711000009",
+        photo: "https://i.pravatar.cc/150?img=48"
+    },
+    {
+        id: "EMP010",
+        name: "Mahmudul Hasan",
+        department: "Administration",
+        position: "Office Assistant",
+        phone: "01711000010",
+        photo: "https://i.pravatar.cc/150?img=11"
+    },
+    {
+        id: "EMP011",
+        name: "Jannatul Ferdous",
+        department: "Human Resources",
+        position: "HR Assistant",
+        phone: "01711000011",
+        photo: "https://i.pravatar.cc/150?img=43"
+    },
+    {
+        id: "EMP012",
+        name: "Arif Hossain",
+        department: "Operations",
+        position: "Team Leader",
+        phone: "01711000012",
+        photo: "https://i.pravatar.cc/150?img=16"
+    }
+];
+
+function loadData(key, fallback) {
+    try {
+        const saved = localStorage.getItem(key);
+        return saved ? JSON.parse(saved) : fallback;
+    } catch (error) {
+        return fallback;
+    }
+}
+
+let employees = loadData("staffdesk_employees", defaultEmployees);
+let attendance = loadData("staffdesk_attendance", []);
+let leaves = loadData("staffdesk_leaves", []);
+
+function saveData() {
+    localStorage.setItem("staffdesk_employees",
+        JSON.stringify(employees));
+
+    localStorage.setItem("staffdesk_attendance",
+        JSON.stringify(attendance));
+
+    localStorage.setItem("staffdesk_leaves",
+        JSON.stringify(leaves));
+}
+
+/* ==========================
+   COMMON FUNCTIONS
+========================== */
+
+const today = new Date().toLocaleDateString("en-CA");
+
+document.getElementById("todayDate").textContent =
+    new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
+
+document.getElementById("attDate").value = today;
+
+document.getElementById("reportMonth").value =
+    today.slice(0, 7);
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+function getEmployee(id) {
+    return employees.find(emp => emp.id === id);
+}
+
+function photoURL(url) {
+    const safe = String(url || "");
+
+    if (/^https?:\/\//i.test(safe)) {
+        return escapeHTML(safe);
+    }
+
+    return "https://i.pravatar.cc/150?img=12";
+}
+
+function statusBadge(status) {
+    const classes = {
+        Present: "present",
+        Absent: "absent",
+        Late: "late",
+        Approved: "approved",
+        Rejected: "rejected",
+        Pending: "pending"
+    };
+
+    return `<span class="status ${classes[status] || "pending"}">
+        ${escapeHTML(status)}
+    </span>`;
+}
+
+/* ==========================
+   NAVIGATION
+========================== */
+
+function showSection(section, element) {
+
+    document.querySelectorAll(".section")
+        .forEach(s => s.classList.remove("active"));
+
+    document.querySelectorAll(".nav-link")
+        .forEach(n => n.classList.remove("active"));
+
+    document.getElementById(section)
+        .classList.add("active");
+
+    if (element) {
+        element.classList.add("active");
+    } else {
+        document.querySelectorAll(".nav-link").forEach(link => {
+            if (link.getAttribute("onclick")?.includes(
+                "'" + section + "'")) {
+                link.classList.add("active");
+            }
+        });
+    }
+
+    const titles = {
+        dashboard: "Dashboard Overview",
+        employees: "Employee Directory",
+        attendance: "Attendance Management",
+        leaves: "Leave Management",
+        reports: "Monthly Reports"
+    };
+
+    document.getElementById("pageTitle").textContent =
+        titles[section];
+
+    refreshAll();
+}
+
+/* ==========================
+   EMPLOYEE MANAGEMENT
+========================== */
+
+function renderEmployees() {
+
+    const search = document.getElementById(
+        "employeeSearch").value.toLowerCase();
+
+    const filtered = employees.filter(emp =>
+        [emp.name, emp.id, emp.department, emp.position]
+            .some(value => String(value).toLowerCase()
+                .includes(search))
+    );
+
+    document.getElementById("employeeTable").innerHTML =
+        filtered.map(emp => `
+        <tr>
+            <td>
+                <div class="employee-cell">
+                    <img src="${photoURL(emp.photo)}"
+                         onerror="this.src='https://i.pravatar.cc/150?img=12'">
+                    <div>
+                        <b>${escapeHTML(emp.name)}</b>
+                        <small>${escapeHTML(emp.position)}</small>
+                    </div>
+                </div>
+            </td>
+            <td>${escapeHTML(emp.id)}</td>
+            <td>${escapeHTML(emp.department)}</td>
+            <td>${escapeHTML(emp.position)}</td>
+            <td>${escapeHTML(emp.phone)}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="btn btn-light"
+                        onclick="editEmployee('${emp.id}')">
+                        Edit
+                    </button>
+                    <button class="btn btn-danger"
+                        onclick="deleteEmployee('${emp.id}')">
+                        Delete
+                    </button>
+                </div>
+            </td>
+        </tr>
+        `).join("") || `
+        <tr><td colspan="6" class="empty">
+            No employees found.
+        </td></tr>`;
+}
+
+function openEmployeeModal() {
+
+    document.getElementById("modalTitle").textContent =
+        "Add New Employee";
+
+    document.getElementById("editEmployeeId").value = "";
+    document.getElementById("empName").value = "";
+    document.getElementById("empPosition").value = "";
+    document.getElementById("empPhone").value = "";
+    document.getElementById("empPhoto").value = "";
+
+    document.getElementById("employeeModal")
+        .classList.add("show");
+}
+
+function closeEmployeeModal() {
+    document.getElementById("employeeModal")
+        .classList.remove("show");
+}
+
+function saveEmployee() {
+
+    const name = document.getElementById("empName")
+        .value.trim();
+
+    const department = document.getElementById("empDepartment")
+        .value;
+
+    const position = document.getElementById("empPosition")
+        .value.trim();
+
+    const phone = document.getElementById("empPhone")
+        .value.trim();
+
+    const photo = document.getElementById("empPhoto")
+        .value.trim();
+
+    const editId = document.getElementById("editEmployeeId")
+        .value;
+
+    if (!name || !position || !phone) {
+        alert("Please fill in all required fields.");
+        return;
+    }
+
+    if (editId) {
+
+        const emp = getEmployee(editId);
+
+        if (!emp) return;
+
+        Object.assign(emp, {
+            name, department, position, phone,
+            photo: photo || emp.photo
+        });
+
+    } else {
+
+        const newId = "EMP" +
+            String(Date.now()).slice(-6);
+
+        employees.push({
+            id: newId,
+            name,
+            department,
+            position,
+            phone,
+            photo: photo || "https://i.pravatar.cc/150?img=12"
+        });
+    }
+
+    saveData();
+    closeEmployeeModal();
+    refreshAll();
+
+    alert(editId
+        ? "Employee information updated."
+        : "New employee added successfully.");
+}
+
+function editEmployee(id) {
+
+    const emp = getEmployee(id);
+
+    if (!emp) return;
+
+    document.getElementById("modalTitle").textContent =
+        "Edit Employee";
+
+    document.getElementById("editEmployeeId").value = emp.id;
+    document.getElementById("empName").value = emp.name;
+    document.getElementById("empDepartment").value =
+        emp.department;
+    document.getElementById("empPosition").value =
+        emp.position;
+    document.getElementById("empPhone").value = emp.phone;
+    document.getElementById("empPhoto").value = emp.photo;
+
+    document.getElementById("employeeModal")
+        .classList.add("show");
+}
+
+function deleteEmployee(id) {
+
+    if (!confirm("Are you sure you want to delete this employee?")) {
+        return;
+    }
+
+    employees = employees.filter(emp => emp.id !== id);
+
+    saveData();
+    refreshAll();
+}
+
+/* ==========================
+   EMPLOYEE SELECT OPTIONS
+========================== */
+
+function renderSelectOptions() {
+
+    const options = employees.map(emp =>
+        `<option value="${emp.id}">
+            ${escapeHTML(emp.name)} (${emp.id})
+        </option>`
+    ).join("");
+
+    document.getElementById("attEmployee").innerHTML =
+        options;
+
+    document.getElementById("leaveEmployee").innerHTML =
+        options;
+}
+
+/* ==========================
+   ATTENDANCE MANAGEMENT
+========================== */
+
+function saveAttendance() {
+
+    const employeeId = document.getElementById(
+        "attEmployee").value;
+
+    const date = document.getElementById("attDate").value;
+    const checkIn = document.getElementById("checkIn").value;
+    const checkOut = document.getElementById("checkOut").value;
+    const status = document.getElementById("attStatus").value;
+
+    if (!employeeId || !date) {
+        alert("Please select an employee and date.");
+        return;
+    }
+
+    if (checkIn && checkOut && checkOut <= checkIn) {
+        alert("Check-out time must be later than check-in.");
+        return;
+    }
+
+    const existing = attendance.find(item =>
+        item.employeeId === employeeId &&
+        item.date === date
+    );
+
+    if (existing) {
+
+        Object.assign(existing, {
+            checkIn: status === "Absent" ? "-" : (checkIn || "-"),
+            checkOut: status === "Absent" ? "-" : (checkOut || "-"),
+            status
+        });
+
+    } else {
+
+        attendance.push({
+            employeeId,
+            date,
+            checkIn: status === "Absent" ? "-" : (checkIn || "-"),
+            checkOut: status === "Absent" ? "-" : (checkOut || "-"),
+            status
+        });
+    }
+
+    saveData();
+    refreshAll();
+
+    alert("Attendance saved successfully.");
+}
+
+function renderAttendance() {
+
+    const rows = [...attendance].sort((a,b) =>
+        b.date.localeCompare(a.date));
+
+    document.getElementById("attendanceTable").innerHTML =
+        rows.map(item => {
+
+            const emp = getEmployee(item.employeeId);
+
+            if (!emp) return "";
+
+            return `
+            <tr>
+                <td>${escapeHTML(emp.name)}</td>
+                <td>${escapeHTML(item.date)}</td>
+                <td>${escapeHTML(item.checkIn)}</td>
+                <td>${escapeHTML(item.checkOut)}</td>
+                <td>${statusBadge(item.status)}</td>
+            </tr>`;
+        }).join("") || `
+        <tr><td colspan="5" class="empty">
+            No attendance records yet.
+        </td></tr>`;
+}
+
+/* ==========================
+   LEAVE MANAGEMENT
+========================== */
+
+function submitLeave() {
+
+    const employeeId = document.getElementById(
+        "leaveEmployee").value;
+
+    const type = document.getElementById("leaveType").value;
+    const start = document.getElementById("leaveStart").value;
+    const end = document.getElementById("leaveEnd").value;
+    const reason = document.getElementById("leaveReason")
+        .value.trim();
+
+    if (!employeeId || !start || !end || !reason) {
+        alert("Please complete the leave application.");
+        return;
+    }
+
+    if (end < start) {
+        alert("End date cannot be before start date.");
+        return;
+    }
+
+    leaves.push({
+        id: Date.now(),
+        employeeId,
+        type,
+        start,
+        end,
+        reason,
+        status: "Pending"
+    });
+
+    saveData();
+
+    document.getElementById("leaveReason").value = "";
+    document.getElementById("leaveStart").value = "";
+    document.getElementById("leaveEnd").value = "";
+
+    refreshAll();
+
+    alert("Leave application submitted successfully.");
+}
+
+function updateLeave(id, status) {
+
+    const leave = leaves.find(item =>
+        item.id === id);
+
+    if (!leave || leave.status !== "Pending") return;
+
+    leave.status = status;
+
+    saveData();
+    refreshAll();
+
+    alert("Leave request " + status.toLowerCase() + ".");
+}
+
+function renderLeaves() {
+
+    document.getElementById("leaveTable").innerHTML =
+        leaves.map(item => {
+
+            const emp = getEmployee(item.employeeId);
+
+            if (!emp) return "";
+
+            return `
+            <tr>
+                <td>${escapeHTML(emp.name)}</td>
+                <td>${escapeHTML(item.type)}</td>
+                <td>
+                    ${escapeHTML(item.start)}
+                    <br>to ${escapeHTML(item.end)}
+                </td>
+                <td>${escapeHTML(item.reason)}</td>
+                <td>${statusBadge(item.status)}</td>
+                <td>
+                    ${item.status === "Pending" ? `
+                    <div class="action-buttons">
+                        <button class="btn btn-success"
+                            onclick="updateLeave(${item.id},'Approved')">
+                            Approve
+                        </button>
+                        <button class="btn btn-danger"
+                            onclick="updateLeave(${item.id},'Rejected')">
+                            Reject
+                        </button>
+                    </div>` : "-"}
+                </td>
+            </tr>`;
+        }).join("") || `
+        <tr><td colspan="6" class="empty">
+            No leave applications found.
+        </td></tr>`;
+}
+
+/* ==========================
+   DASHBOARD
+========================== */
+
+function renderDashboard() {
+
+    const todayRecords = attendance.filter(item =>
+        item.date === today);
+
+    const present = todayRecords.filter(item =>
+        item.status === "Present").length;
+
+    const absent = todayRecords.filter(item =>
+        item.status === "Absent").length;
+
+    const late = todayRecords.filter(item =>
+        item.status === "Late").length;
+
+    document.getElementById("totalEmployees").textContent =
+        employees.length;
+
+    document.getElementById("presentCount").textContent =
+        present;
+
+    document.getElementById("absentCount").textContent =
+        absent;
+
+    document.getElementById("pendingCount").textContent =
+        leaves.filter(item =>
+            item.status === "Pending").length;
+
+    const total = Math.max(employees.length, 1);
+
+    document.getElementById("presentBar").style.width =
+        (present / total * 100) + "%";
+
+    document.getElementById("absentBar").style.width =
+        (absent / total * 100) + "%";
+
+    document.getElementById("lateBar").style.width =
+        (late / total * 100) + "%";
+
+    document.getElementById("recentAttendance").innerHTML =
+        todayRecords.slice(0, 7).map(item => {
+
+            const emp = getEmployee(item.employeeId);
+
+            if (!emp) return "";
+
+            return `
+            <tr>
+                <td>
+                    <div class="employee-cell">
+                        <img src="${photoURL(emp.photo)}">
+                        <b>${escapeHTML(emp.name)}</b>
+                    </div>
+                </td>
+                <td>${escapeHTML(item.checkIn)}</td>
+                <td>${statusBadge(item.status)}</td>
+            </tr>`;
+        }).join("") || `
+        <tr><td colspan="3" class="empty">
+            No attendance marked for today.
+        </td></tr>`;
+}
+
+/* ==========================
+   MONTHLY REPORTS
+========================== */
+
+function renderReports() {
+
+    const month = document.getElementById(
+        "reportMonth").value;
+
+    if (!month) return;
+
+    const records = attendance.filter(item =>
+        item.date.startsWith(month));
+
+    const present = records.filter(item =>
+        item.status === "Present").length;
+
+    const absent = records.filter(item =>
+        item.status === "Absent").length;
+
+    const late = records.filter(item =>
+        item.status === "Late").length;
+
+    document.getElementById("reportTotal").textContent =
+        records.length;
+
+    document.getElementById("reportPresent").textContent =
+        present;
+
+    document.getElementById("reportAbsent").textContent =
+        absent;
+
+    document.getElementById("reportLate").textContent =
+        late;
+
+    document.getElementById("reportTable").innerHTML =
+        employees.map(emp => {
+
+            const own = records.filter(item =>
+                item.employeeId === emp.id);
+
+            const p = own.filter(item =>
+                item.status === "Present").length;
+
+            const a = own.filter(item =>
+                item.status === "Absent").length;
+
+            const l = own.filter(item =>
+                item.status === "Late").length;
+
+            const rate = own.length
+                ? Math.round((p + l) / own.length * 100)
+                : 0;
+
+            return `
+            <tr>
+                <td>${escapeHTML(emp.name)}</td>
+                <td>${p}</td>
+                <td>${a}</td>
+                <td>${l}</td>
+                <td>
+                    ${rate}%
+                    <div class="progress">
+                        <div style="width:${rate}%"></div>
+                    </div>
+                </td>
+            </tr>`;
+        }).join("");
+}
+
+/* ==========================
+   CSV EXPORT
+========================== */
+
+function downloadCSV() {
+
+    const month = document.getElementById(
+        "reportMonth").value;
+
+    if (!month) {
+        alert("Please select a month.");
+        return;
+    }
+
+    const records = attendance.filter(item =>
+        item.date.startsWith(month));
+
+    const rows = [
+        ["Employee ID", "Employee Name", "Date",
+         "Check In", "Check Out", "Status"]
+    ];
+
+    records.forEach(item => {
+
+        const emp = getEmployee(item.employeeId);
+
+        if (!emp) return;
+
+        rows.push([
+            emp.id,
+            emp.name,
+            item.date,
+            item.checkIn,
+            item.checkOut,
+            item.status
+        ]);
+    });
+
+    const csv = rows.map(row =>
+        row.map(value =>
+            '"' + String(value).replace(/"/g, '""') + '"'
+        ).join(",")
+    ).join("\r\n");
+
+    const blob = new Blob(
+        ["\uFEFF" + csv],
+        { type: "text/csv;charset=utf-8;" }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "StaffDesk_Attendance_" +
+        month + ".csv";
+
+    link.click();
+
+    URL.revokeObjectURL(url);
+}
+
+/* ==========================
+   REFRESH ALL SECTIONS
+========================== */
+
+function refreshAll() {
+
+    renderSelectOptions();
+    renderEmployees();
+    renderAttendance();
+    renderLeaves();
+    renderDashboard();
+    renderReports();
+}
+
+refreshAll();
+
+</script>
+
+</body>
+</html>

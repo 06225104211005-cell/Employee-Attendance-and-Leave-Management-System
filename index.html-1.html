@@ -1,0 +1,1052 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StaffDesk | Employee Management System</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS File -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">S</div>
+            <div>
+                <h2>StaffDesk<span>.</span></h2>
+                <small>HR Management System</small>
+            </div>
+        </div>
+
+        <div class="menu-label">MAIN MENU</div>
+
+        <nav class="navigation">
+
+            <a href="#" class="nav-link active"
+               onclick="showSection('dashboard', this); return false;">
+                <span class="nav-icon">▦</span>
+                Dashboard
+            </a>
+
+            <a href="#" class="nav-link"
+               onclick="showSection('employees', this); return false;">
+                <span class="nav-icon">♙</span>
+                Employees
+            </a>
+
+            <div class="menu-label">MANAGEMENT</div>
+
+            <a href="#" class="nav-link"
+               onclick="showSection('attendance', this); return false;">
+                <span class="nav-icon">◷</span>
+                Attendance
+            </a>
+
+            <a href="#" class="nav-link"
+               onclick="showSection('leaves', this); return false;">
+                <span class="nav-icon">▤</span>
+                Leave Management
+            </a>
+
+            <div class="menu-label">ANALYTICS</div>
+
+            <a href="#" class="nav-link"
+               onclick="showSection('reports', this); return false;">
+                <span class="nav-icon">▥</span>
+                Monthly Reports
+            </a>
+
+        </nav>
+
+        <!-- ADMIN PROFILE -->
+        <div class="sidebar-bottom">
+
+            <div class="admin-profile">
+
+                <img
+                    src="https://i.pravatar.cc/100?img=12"
+                    alt="Admin Shahinur"
+                >
+
+                <div>
+                    <h4>Shahinur</h4>
+                    <small>Administrator</small>
+                </div>
+
+                <span class="admin-dot"></span>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP HEADER -->
+        <header class="topbar">
+
+            <div class="header-left">
+
+                <h1 id="pageTitle">Dashboard Overview</h1>
+
+                <p id="todayDate">
+                    Welcome to StaffDesk
+                </p>
+
+            </div>
+
+            <div class="header-right">
+
+                <div class="notification">
+                    <span>♧</span>
+                    <i></i>
+                </div>
+
+                <div class="header-admin">
+
+                    <img
+                        src="https://i.pravatar.cc/100?img=12"
+                        alt="Admin"
+                    >
+
+                    <div>
+                        <h4>Shahinur</h4>
+                        <small>HR Administrator</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             1. DASHBOARD SECTION
+        ========================== -->
+
+        <section id="dashboard" class="section active">
+
+            <div class="welcome-banner">
+
+                <div>
+                    <h2>Welcome back, Shahinur! 👋</h2>
+
+                    <p>
+                        Here's what's happening with your team today.
+                        Have a productive day!
+                    </p>
+                </div>
+
+                <div class="welcome-icon">👨‍💼</div>
+
+            </div>
+
+
+            <!-- STATISTICS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <span>Total Employees</span>
+                        <div class="stat-icon purple">👥</div>
+                    </div>
+
+                    <h2 id="totalEmployees">12</h2>
+
+                    <small>Registered employees</small>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <span>Present Today</span>
+                        <div class="stat-icon green">✓</div>
+                    </div>
+
+                    <h2 id="presentCount">0</h2>
+
+                    <small>Employees present</small>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <span>Absent Today</span>
+                        <div class="stat-icon red">✕</div>
+                    </div>
+
+                    <h2 id="absentCount">0</h2>
+
+                    <small>Employees absent</small>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <span>Pending Leaves</span>
+                        <div class="stat-icon orange">▤</div>
+                    </div>
+
+                    <h2 id="pendingCount">0</h2>
+
+                    <small>Waiting for approval</small>
+
+                </div>
+
+            </div>
+
+
+            <!-- DASHBOARD CONTENT -->
+
+            <div class="dashboard-grid">
+
+                <!-- RECENT ATTENDANCE -->
+
+                <div class="content-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h3>Recent Attendance</h3>
+                            <p>Today's employee attendance</p>
+                        </div>
+
+                        <button class="btn btn-light"
+                            onclick="showSection('attendance')">
+                            View All
+                        </button>
+
+                    </div>
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Check In</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="recentAttendance">
+
+                                <tr>
+                                    <td colspan="3">
+                                        No attendance records yet.
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ATTENDANCE OVERVIEW -->
+
+                <div class="content-card">
+
+                    <div class="card-header">
+                        <div>
+                            <h3>Attendance Overview</h3>
+                            <p>Today's attendance statistics</p>
+                        </div>
+                    </div>
+
+                    <div class="attendance-chart">
+
+                        <div class="chart-item">
+
+                            <div class="chart-label">
+                                <span>Present</span>
+                                <span id="presentChartValue">0</span>
+                            </div>
+
+                            <div class="progress-track">
+                                <div id="presentBar"
+                                     class="progress-fill green-fill"
+                                     style="width:0%">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="chart-item">
+
+                            <div class="chart-label">
+                                <span>Absent</span>
+                                <span id="absentChartValue">0</span>
+                            </div>
+
+                            <div class="progress-track">
+                                <div id="absentBar"
+                                     class="progress-fill red-fill"
+                                     style="width:0%">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="chart-item">
+
+                            <div class="chart-label">
+                                <span>Late</span>
+                                <span id="lateChartValue">0</span>
+                            </div>
+
+                            <div class="progress-track">
+                                <div id="lateBar"
+                                     class="progress-fill orange-fill"
+                                     style="width:0%">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="content-card quick-actions">
+
+                <div class="card-header">
+                    <div>
+                        <h3>Quick Actions</h3>
+                        <p>Manage your employees quickly</p>
+                    </div>
+                </div>
+
+                <div class="action-grid">
+
+                    <button class="action-box"
+                        onclick="showSection('employees')">
+
+                        <span>👥</span>
+                        <b>Add Employee</b>
+                        <small>Manage employee profiles</small>
+
+                    </button>
+
+
+                    <button class="action-box"
+                        onclick="showSection('attendance')">
+
+                        <span>🕒</span>
+                        <b>Mark Attendance</b>
+                        <small>Record daily attendance</small>
+
+                    </button>
+
+
+                    <button class="action-box"
+                        onclick="showSection('leaves')">
+
+                        <span>📋</span>
+                        <b>Leave Requests</b>
+                        <small>Review leave applications</small>
+
+                    </button>
+
+
+                    <button class="action-box"
+                        onclick="showSection('reports')">
+
+                        <span>📊</span>
+                        <b>View Reports</b>
+                        <small>Check monthly reports</small>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             2. EMPLOYEE SECTION
+        ========================== -->
+
+        <section id="employees" class="section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Employee Directory</h2>
+                    <p>
+                        Manage your team members and employee information.
+                    </p>
+                </div>
+
+                <button class="btn btn-primary"
+                    onclick="openEmployeeModal()">
+                    + Add New Employee
+                </button>
+
+            </div>
+
+
+            <div class="content-card">
+
+                <div class="filter-bar">
+
+                    <input
+                        type="search"
+                        id="employeeSearch"
+                        placeholder="Search by name, ID or department..."
+                        oninput="renderEmployees()"
+                    >
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>EMPLOYEE</th>
+                                <th>EMPLOYEE ID</th>
+                                <th>DEPARTMENT</th>
+                                <th>POSITION</th>
+                                <th>PHONE</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="employeeTable">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             3. ATTENDANCE SECTION
+        ========================== -->
+
+        <section id="attendance" class="section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Attendance Management</h2>
+                    <p>
+                        Record and monitor daily employee attendance.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- ATTENDANCE FORM -->
+
+            <div class="content-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h3>Mark Employee Attendance</h3>
+                        <p>Enter employee attendance details below.</p>
+                    </div>
+
+                    <span class="form-icon">🕒</span>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Select Employee</label>
+
+                        <select id="attEmployee">
+                            <option value="">Select Employee</option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Attendance Date</label>
+
+                        <input
+                            type="date"
+                            id="attDate"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Check In Time</label>
+
+                        <input
+                            type="time"
+                            id="checkIn"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Check Out Time</label>
+
+                        <input
+                            type="time"
+                            id="checkOut"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Attendance Status</label>
+
+                        <select id="attStatus">
+
+                            <option value="Present">Present</option>
+                            <option value="Late">Late</option>
+                            <option value="Absent">Absent</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-footer">
+
+                    <button class="btn btn-primary"
+                        onclick="saveAttendance()">
+                        Save Attendance
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ATTENDANCE HISTORY -->
+
+            <div class="content-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h3>Attendance History</h3>
+                        <p>All recorded attendance details</p>
+                    </div>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>EMPLOYEE</th>
+                                <th>DATE</th>
+                                <th>CHECK IN</th>
+                                <th>CHECK OUT</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="attendanceTable">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             4. LEAVE SECTION
+        ========================== -->
+
+        <section id="leaves" class="section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Leave Management</h2>
+                    <p>
+                        Manage employee leave applications and approvals.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- LEAVE APPLICATION FORM -->
+
+            <div class="content-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h3>New Leave Application</h3>
+                        <p>Submit an employee leave request.</p>
+                    </div>
+
+                    <span class="form-icon">📋</span>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Employee Name</label>
+
+                        <select id="leaveEmployee">
+                            <option value="">Select Employee</option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Leave Type</label>
+
+                        <select id="leaveType">
+
+                            <option>Casual Leave</option>
+                            <option>Sick Leave</option>
+                            <option>Annual Leave</option>
+                            <option>Emergency Leave</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Start Date</label>
+
+                        <input
+                            type="date"
+                            id="leaveStart"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>End Date</label>
+
+                        <input
+                            type="date"
+                            id="leaveEnd"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Reason for Leave</label>
+
+                    <textarea
+                        id="leaveReason"
+                        rows="4"
+                        placeholder="Write the reason for leave..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-footer">
+
+                    <button class="btn btn-primary"
+                        onclick="submitLeave()">
+                        Submit Application
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- LEAVE REQUEST TABLE -->
+
+            <div class="content-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h3>Leave Applications</h3>
+                        <p>Review and manage employee leave requests.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>EMPLOYEE</th>
+                                <th>LEAVE TYPE</th>
+                                <th>START DATE</th>
+                                <th>END DATE</th>
+                                <th>REASON</th>
+                                <th>STATUS</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="leaveTable">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             5. REPORT SECTION
+        ========================== -->
+
+        <section id="reports" class="section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Monthly Attendance Reports</h2>
+                    <p>
+                        Analyze employee attendance and monthly performance.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="content-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h3>Generate Monthly Report</h3>
+                        <p>Select a month to view attendance statistics.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="report-filter">
+
+                    <input
+                        type="month"
+                        id="reportMonth"
+                    >
+
+                    <button class="btn btn-primary"
+                        onclick="renderReports()">
+                        Generate Report
+                    </button>
+
+                    <button class="btn btn-light"
+                        onclick="downloadCSV()">
+                        ↓ Export CSV
+                    </button>
+
+                </div>
+
+
+                <!-- REPORT STATISTICS -->
+
+                <div class="stats-grid report-stats">
+
+                    <div class="stat-card">
+
+                        <span>Total Records</span>
+                        <h2 id="reportTotal">0</h2>
+
+                    </div>
+
+                    <div class="stat-card">
+
+                        <span>Present</span>
+                        <h2 id="reportPresent">0</h2>
+
+                    </div>
+
+                    <div class="stat-card">
+
+                        <span>Absent</span>
+                        <h2 id="reportAbsent">0</h2>
+
+                    </div>
+
+                    <div class="stat-card">
+
+                        <span>Late</span>
+                        <h2 id="reportLate">0</h2>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMPLOYEE REPORT TABLE -->
+
+                <div class="report-table">
+
+                    <h3>Employee-wise Attendance Summary</h3>
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>EMPLOYEE</th>
+                                    <th>PRESENT</th>
+                                    <th>ABSENT</th>
+                                    <th>LATE</th>
+                                    <th>ATTENDANCE RATE</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="reportTable">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- FOOTER -->
+
+        <footer class="footer">
+
+            <p>
+                © 2026 StaffDesk HR Management System.
+                Developed by <strong>Shahinur</strong>.
+            </p>
+
+            <span>Smart • Simple • Professional</span>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================
+     EMPLOYEE ADD / EDIT MODAL
+========================== -->
+
+<div class="modal" id="employeeModal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <div>
+                <h2 id="modalTitle">Add New Employee</h2>
+                <p>Enter employee information below.</p>
+            </div>
+
+            <button class="close-btn"
+                onclick="closeEmployeeModal()">
+                ×
+            </button>
+
+        </div>
+
+
+        <input
+            type="hidden"
+            id="editEmployeeId"
+        >
+
+
+        <div class="form-group">
+
+            <label>Employee Full Name *</label>
+
+            <input
+                type="text"
+                id="empName"
+                placeholder="Enter employee name"
+            >
+
+        </div>
+
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Department *</label>
+
+                <select id="empDepartment">
+
+                    <option>Human Resources</option>
+                    <option>Finance</option>
+                    <option>Marketing</option>
+                    <option>IT Department</option>
+                    <option>Administration</option>
+                    <option>Operations</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Job Position *</label>
+
+                <input
+                    type="text"
+                    id="empPosition"
+                    placeholder="Enter job position"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Phone Number *</label>
+
+                <input
+                    type="tel"
+                    id="empPhone"
+                    placeholder="01XXXXXXXXX"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Profile Photo URL</label>
+
+                <input
+                    type="url"
+                    id="empPhoto"
+                    placeholder="Enter photo URL"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button class="btn btn-light"
+                onclick="closeEmployeeModal()">
+                Cancel
+            </button>
+
+            <button class="btn btn-primary"
+                onclick="saveEmployee()">
+                Save Employee
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- JAVASCRIPT FILE -->
+<script src="script.js"></script>
+
+</body>
+</html>
